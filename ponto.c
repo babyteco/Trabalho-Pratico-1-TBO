@@ -5,7 +5,7 @@
 typedef struct ponto{
     char *nome;
     int m;
-    double *pontos;
+    double *coordenadas;
 } Ponto;
 
 Ponto* lerPontos(char *nome_arquivo, int *qtd){
@@ -19,36 +19,35 @@ Ponto* lerPontos(char *nome_arquivo, int *qtd){
     char *linha = NULL;
     int tam = 0;
 
+    //inicialmente o vetor tem tamanho 1024, sendo realizado realloc se houverem mais que 1024 pontos
     int capacidade = 1024;
     Ponto *pontos = malloc(capacidade * sizeof(Ponto));
     *qtd = 0;
 
     while (getline(&linha, &tam, f) != -1) {
 
-        char *copia = strdup(linha);
-
-        char *token = strtok(copia, " \n");
+        char *token = strtok(copia, ", \n");
         if (!token) {
-            free(copia);
             continue;
         }
 
         Ponto p;
         p.nome = strdup(token);
 
-        int capacidade_coords = 2;
+        int capacidade_coordenadas = 2;
         int m = 0;
-        p.coords = malloc(cap_coords * sizeof(double));
+        p.coordenadas = malloc(capacidade_coordenadas * sizeof(double));
 
         token = strtok(NULL, ", \n");
         while (token != NULL) {
 
-            if (m >= cap_coords) {
-                cap_coords *= 2;
-                p.coords = realloc(p.coords, cap_coords * sizeof(double));
+            if (m >= capacidade_coordenadas) {
+                capacidade_coordenadas *= 2;
+                p.coords = realloc(p.coords, capacidade_coordenadas * sizeof(double));
             }
 
-            p.coords[m++] = atof(token);
+            p.coordenadas[m] = atof(token);
+            m++;
 
             token = strtok(NULL, " \n");
         }
@@ -60,9 +59,8 @@ Ponto* lerPontos(char *nome_arquivo, int *qtd){
             pontos = realloc(pontos, capacidade * sizeof(Ponto));
         }
 
-        pontos[(*qtd)++] = p;
-
-        free(copia);
+        pontos[(*qtd)] = p;
+        (*qtd)++;
     }
 
     free(linha);
