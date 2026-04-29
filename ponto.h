@@ -4,7 +4,11 @@
 
 typedef struct ponto Ponto;
 
-Ponto* lerPontos(char *nomeArquivo, int *qtd);
+Ponto *cria_ponto(char* nome, int m, double* coordenadas);
+
+char* get_nome_ponto(Ponto *p);
+
+void imprime_ponto(Ponto* p);
 
 void liberaPonto(Ponto *p);
 
