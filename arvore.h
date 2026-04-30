@@ -10,6 +10,9 @@ Arvore* arv_criavazia (void);
 // Cria uma árvore com a informação do ponto p
 Arvore* arv_cria (Ponto *p);
 
+//retorna o ponto de uma arvore
+Ponto* get_ponto_arvore(Arvore *a);
+
 // Retorna 1 se a árvore estiver vazia
 int arv_vazia (Arvore* a);
 

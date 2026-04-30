@@ -35,6 +35,10 @@ int arv_vazia (Arvore* a){
     return (a == NULL);
 }
 
+Ponto* get_ponto_arvore(Arvore *a){
+    return a->p;
+}
+
 // Indica a ocorrência (1) ou não (0) do ponto pelo nome
 int arv_pertence (Arvore* a, char* nome){
     if (arv_vazia(a)) return 0;

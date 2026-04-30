@@ -6,7 +6,8 @@
 
 typedef struct unionfind{
     Arvore *a;
-    int i;
+    int i;  //representa o pai (logica do union find)
+    int sz; //armazena o numero de nos da arvore enraizada aqui
 } UnionFind;
 
 
@@ -61,6 +62,7 @@ UnionFind* le_entrada(FILE *f, int *qtd){
 
         uf[*qtd].a = a;
         uf[*qtd].i = *qtd;
+        uf[*qtd].sz = 1;
         (*qtd)++;
     }
     free(linha);
@@ -68,22 +70,47 @@ UnionFind* le_entrada(FILE *f, int *qtd){
     return uf;
 } 
 
-// int UF_find(int i) {
-//     while (i != id[i]) i = id[i]; // Buscar o pai ate a raiz.
-//     return i; // Profundidade de i acessos.
-// }
+//retorno o nome do ponto armazenada na posicao i da uf
+char *get_nome_uf(UnionFind *uf, int i){
+    return get_nome_ponto(get_ponto_arvore(uf[i].a));
+}
 
-// void UF_union(int p, int q) {
-//     int i = UF_find(p); // Pendure a arvore menor sob a maior.
-//     int j = UF_find(q); // Profundidade de ? acessos.
-//     if (i == j) return;
-//     if (sz[i] < sz[j]) { 
-//         id[i] = j; sz[j] += sz[i]; 
-//     }
-//     else { 
-//         id[j] = i; sz[i] += sz[j]; 
-//     }
-// }
+//retorna o indice do ponto de nome key no vetor de unionfind
+int get_indice_da_chave(UnionFind *uf, char *key, int qtd){
+    for (int i = 0; i < qtd; i++){
+        if (strcmp(key, get_nome_uf(uf, i)) == 0){
+           return i;
+        }
+    }
+    
+    return -1;
+}
+
+//retorna o indice da componente complexa de i esta (raiz da arvore i)
+//path halving
+int UF_find(UnionFind *uf, int i) {
+    while (i != uf[i].i){
+        uf[i].i = uf[uf[i].i].i; //faz cada nó visitado apontar para seu avo
+        i = uf[i].i; // Buscar o pai ate a raiz.
+    
+    }
+    return i; // Profundidade de i acessos.
+}
+
+
+void UF_union(UnionFind *uf, int p, int q) {
+    int i = UF_find(uf, p); // Pendure a arvore menor sob a maior.
+    int j = UF_find(uf, q); // Profundidade de ? acessos.
+    if (i == j) return;
+    if (uf[i].sz < uf[j].sz) { 
+        uf[i].i = j; 
+        uf[j].sz += uf[i].sz; 
+    }
+    else { 
+        uf[j].i = i;
+        uf[i].sz += uf[j].sz;
+    }
+}
 
 void libera_UF(UnionFind *uf, int qtd){
     for (int i = 0; i < qtd; i++){
