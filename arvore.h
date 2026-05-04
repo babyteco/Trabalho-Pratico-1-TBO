@@ -10,6 +10,10 @@ Arvore* arv_criavazia (void);
 // Cria uma árvore com a informação do ponto p
 Arvore* arv_cria (Ponto *p);
 
+Arvore *get_primeiro_filho(Arvore *a);
+
+Arvore *get_proximo_irmao(Arvore *a);
+
 //retorna o ponto de uma arvore
 Ponto* get_ponto_arvore(Arvore *a);
 
@@ -28,6 +32,8 @@ int altura(Arvore* a);
 
 // Retorna o ponteiro para o ponto armazenado no nó
 Ponto *getPonto(Arvore *arvore);
+
+void arv_conecta(Arvore *a1, Arvore *a2);
 
 // Libera o espaço de memória ocupado pela árvore
 // Segue a lógica: libera o filho (e toda a subárvore dele) e depois o irmão

@@ -39,6 +39,14 @@ Ponto* get_ponto_arvore(Arvore *a){
     return a->p;
 }
 
+Arvore *get_primeiro_filho(Arvore *a){
+    return a->primeiro_filho;
+}
+
+Arvore *get_proximo_irmao(Arvore *a){
+    return a->proximo_irmao;
+}
+
 // Indica a ocorrência (1) ou não (0) do ponto pelo nome
 int arv_pertence (Arvore* a, char* nome){
     if (arv_vazia(a)) return 0;
@@ -85,6 +93,12 @@ int altura(Arvore* a){
 Ponto *getPonto(Arvore *arvore){
     if (arvore == NULL) return NULL;
     return arvore->p;
+}
+
+//pendura a arvore a1 na arvore a2, de forma que a1 se torna o primerio filho
+void arv_conecta(Arvore *a1, Arvore *a2){
+    a1->proximo_irmao = a2->primeiro_filho;
+    a2->primeiro_filho = a1;
 }
 
 // Libera o espaço de memória ocupado pela árvore

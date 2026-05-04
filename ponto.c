@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include "ponto.h"
 
 typedef struct ponto{
@@ -26,6 +27,16 @@ void imprime_ponto(Ponto* p){
 
 char* get_nome_ponto(Ponto *p){
     return p->nome;
+}
+
+double calcula_distancia(Ponto *p1, Ponto *p2){
+    double sum = 0;
+
+    for (int i = 0; i < p1->m; i++){
+        sum += pow(p1->coordenadas[i] - p2->coordenadas[i], (double)2);    
+    }
+    
+    return sqrt(sum);
 }
 
 void liberaPonto(Ponto *p){
