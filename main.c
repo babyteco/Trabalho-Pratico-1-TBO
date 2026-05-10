@@ -9,6 +9,7 @@
 
 
 int main(int argc, char* argv[]){
+    (void)argc;
     FILE *f1 = fopen(argv[1], "r");
     int qtd_pontos = 0;
     int k = atoi(argv[2]);
@@ -27,7 +28,7 @@ int main(int argc, char* argv[]){
     //algoritmo de Kruskal
     conectar_arvores(uf, a, k, qtd_pontos);
 
-    FILE *f2 = fopen("saida.txt", "w");
+    FILE *f2 = fopen(argv[3], "w");
     imprime_grupos(uf, qtd_pontos, k, f2);
     fclose(f2);
 
